@@ -53,9 +53,6 @@ return [
             'access_key_id' => '',
             'access_key_secret' => '',
         ],
-        'Alidayu' => [
-
-        ],
         // ...
     ],
 
