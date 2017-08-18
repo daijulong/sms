@@ -111,7 +111,7 @@ class SmsSender
      * @param array $params
      * @return $this
      */
-    public function parms(array $params = [])
+    public function params(array $params = [])
     {
         $this->sms_params = $params;
         return $this;
