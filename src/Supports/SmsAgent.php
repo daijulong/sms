@@ -36,7 +36,16 @@ class SmsAgent
     {
         $agents = SmsConfig::getAgents();
         if (!empty($agents)) {
+            $ext_agent_namespace = SmsConfig::getAgentExtNamespace();
             foreach ($agents as $name => $config) {
+                //优先注册扩展代理器
+                if ($ext_agent_namespace != '') {
+                    $ext_agent_classname = $ext_agent_namespace . $name;
+                    if (class_exists($ext_agent_classname)) {
+                        self::register($name, new $ext_agent_classname($config));
+                        continue;
+                    }
+                }
                 $agent_classname = 'Daijulong\\Sms\\Agents\\' . $name;
                 if (class_exists($agent_classname)) {
                     self::register($name, new $agent_classname($config));

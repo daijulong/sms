@@ -36,6 +36,11 @@ class SmsConfig
     private static $connect_timeout = 0;
 
     /**
+     * 扩展代理器命名空间
+     */
+    private static $agent_ext_namespace = '';
+
+    /**
      * 加载配置
      *
      * @static
@@ -49,6 +54,7 @@ class SmsConfig
         isset($config['agents']) && is_array($config['agents']) ? self::setAgents($config['agents']) : null;
         isset($config['timeout']) && is_int($config['timeout']) ? self::setTimeout($config['timeout']) : null;
         isset($config['connect_timeout']) && is_int($config['connect_timeout']) ? self::setConnectTimeout($config['connect_timeout']) : null;
+        isset($config['agent_ext_namespace']) && is_string($config['agent_ext_namespace']) ? self::setAgentExtNamespace($config['agent_ext_namespace']) : null;
     }
 
     /**
@@ -179,6 +185,28 @@ class SmsConfig
     public static function setConnectTimeout(int $connect_timeout)
     {
         self::$connect_timeout = $connect_timeout > 0 ? $connect_timeout : 0;
+    }
+
+    /**
+     * 获取扩展代理器命名空间
+     *
+     * @static
+     * @return string
+     */
+    public static function getAgentExtNamespace(): string
+    {
+        return self::$agent_ext_namespace;
+    }
+
+    /**
+     * 设置扩展代理器命名空间
+     *
+     * @static
+     * @param string $connect_timeout
+     */
+    public static function setAgentExtNamespace(string $connect_timeout)
+    {
+        self::$agent_ext_namespace = $connect_timeout;
     }
 
 }
