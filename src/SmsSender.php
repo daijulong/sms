@@ -56,7 +56,7 @@ class SmsSender
      * @param string $mobile
      * @return $this
      */
-    public function to(string $mobile)
+    public function to(string $mobile): self
     {
         $this->receiver = $mobile;
         return $this;
@@ -69,7 +69,7 @@ class SmsSender
      * @param array $spare_agents
      * @return $this
      */
-    public function agent(string $agent, array $spare_agents = [])
+    public function agent(string $agent, array $spare_agents = []): self
     {
         $this->default_agent = $agent;
         if (!empty($spare_agents)) {
@@ -86,7 +86,7 @@ class SmsSender
      * @param string $agent
      * @return $this
      */
-    public function onlyAgent(string $agent)
+    public function onlyAgent(string $agent): self
     {
         $this->default_agent = $agent;
         $this->spare_agents = [];
@@ -99,7 +99,7 @@ class SmsSender
      * @param Sms $sms
      * @return $this
      */
-    public function sms(Sms $sms)
+    public function sms(Sms $sms): self
     {
         $this->sms = $sms;
         return $this;
@@ -111,7 +111,7 @@ class SmsSender
      * @param array $params
      * @return $this
      */
-    public function params(array $params = [])
+    public function params(array $params = []): self
     {
         $this->sms_params = $params;
         return $this;
@@ -120,10 +120,10 @@ class SmsSender
     /**
      * 发送短信
      *
-     * @return mixed
+     * @return bool
      * @throws SmsSendException
      */
-    public function send()
+    public function send(): bool
     {
         if (!$this->receiver) {
             throw new SmsSendException('Missing SMS receiver!');
@@ -131,6 +131,8 @@ class SmsSender
         if (!$this->sms) {
             throw new SmsSendException('Missing SMS!');
         }
+
+        $this->send_results = [];
 
         $send_result = false;
 
@@ -150,6 +152,8 @@ class SmsSender
             }
         }
 
+        $this->reset();
+
         return $send_result;
     }
 
@@ -158,7 +162,7 @@ class SmsSender
      *
      * @return array
      */
-    public function getResults()
+    public function getResults(): array
     {
         return $this->send_results;
     }
@@ -170,9 +174,23 @@ class SmsSender
      *
      * @return SmsResult
      */
-    public function getResult()
+    public function getResult(): SmsResult
     {
         return end($this->send_results);
+    }
+
+    /**
+     * 重置
+     *
+     * 发送成功后恢复初始状态以供下一次发送
+     */
+    private function reset()
+    {
+        $this->default_agent = SmsConfig::getDefaultAgent();
+        $this->spare_agents = SmsConfig::getSpareAgents();
+        $this->receiver = '';
+        $this->sms = null;
+        $this->sms_params = [];
     }
 
 }
