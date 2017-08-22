@@ -15,7 +15,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Daijulong\\Sms": "src/"
+            "Daijulong\\Sms\\": "src/"
         }
     },
     "minimum-stability": "stable"
