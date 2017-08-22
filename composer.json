@@ -13,5 +13,10 @@
             "email": "daijulong@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Daijulong\\Sms": "src/"
+        }
+    },
     "minimum-stability": "stable"
 }
