@@ -11,12 +11,12 @@ trait AgentSendResult
     /**
      * 发送结果
      */
-    private $result;
+    protected $result;
 
     /**
      * 配置信息
      */
-    private $config = [];
+    protected $config = [];
 
     /**
      * Content constructor.
